@@ -50,6 +50,8 @@ export default function SampleForm() {
         <p className="error">{formik.touched.email && formik.errors.email ? formik.errors.email : ""}</p>
         <label htmlFor="name">Your Name</label>
         <input type="text" name="name" id="name" {...formik.getFieldProps("name")}/>
+        {/* <input type="text" name="name" id="name" value={formik.values.name}
+           onChange={formik.handleChange} onBlur={formik.handleBlur}/> */}
         <p className="error">{formik.touched.name && formik.errors.name ? formik.errors.name : ""}</p>
         <button type="submit">Submit</button>
         <p className="footer">Powered by Venki</p>

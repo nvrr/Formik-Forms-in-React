@@ -7,11 +7,11 @@
   justify-content: center;
 }
 
-h1,label,input,button,.error {
+h1,label,input,button,.error,textarea {
   margin:15px;
 }
 
-input,button{
+input,button,textarea{
   min-width: 400px;
   display: block;
   padding: 6px;
