@@ -10,7 +10,7 @@ export default function FeedbackForm() {
 
     const initialValues = {
         email: "ww@em.com",
-        name: "qat",
+        name: "",
         phone:"3424",
         address: "",
         socialmedia: {
@@ -38,6 +38,8 @@ export default function FeedbackForm() {
         console.log("form submitted",values, form);
         setTimeout(() => {
           form.setSubmitting(false);
+          // to reset form after submiting  and if we want to works rest we need to  remove "(initialValues{formValues} and enableReinitialize)" in Formik Tag
+          form.resetForm();
         },1000)
     }
 
@@ -70,7 +72,7 @@ export default function FeedbackForm() {
     // gh""
   return (
     <div>
-     <Formik initialValues={formValues || initialValues} enableReinitialize validationSchema={validationSchema} onSubmit={onSubmit} validateOnMount={true} >
+     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} validateOnMount={true} >
       {
         (formik) => {
           console.log("form", formik.errors)
@@ -158,6 +160,9 @@ export default function FeedbackForm() {
         <button type="button" onClick={()=>formik.validateField("email")} >Validate Element</button>
 
         <button type="button" onClick={()=> setFormValues(savedValues)} >Load Data</button>
+
+        <input type="reset" value="Reset Form" />
+
       {/* ----- Manual Triggering Validation ------ */}
       
         {/* <button type="submit" className="submitBtn" disabled={!(formik.dirty && formik.isValid)} >Submit</button> */}
@@ -178,4 +183,5 @@ export default function FeedbackForm() {
 // Case-3: On filling mandatory fields (!(dirty & isValid))
 // Case-4: On Pre populating default data
 // Case-5: While form submission is in progress
-//Load Saved Data 
+//Load Saved Data and
+//  Reset Form
