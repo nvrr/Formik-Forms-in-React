@@ -19,8 +19,11 @@ export default function FeedbackForm() {
         phoneNumbers: [""],
     }
 
-    const onSubmit = (values) => {
-        console.log("form submitted",values);
+    const onSubmit = (values, form) => {
+        console.log("form submitted",values, form);
+        setTimeout(() => {
+          form.setSubmitting(false);
+        },1000)
     }
 
     const validationSchema = Yup.object({
@@ -140,7 +143,9 @@ export default function FeedbackForm() {
         <button type="button" onClick={()=>formik.validateField("email")} >Validate Element</button>
       {/* ----- Manual Triggering Validation ------ */}
       
-        <button type="submit" className="submitBtn" disabled={!(formik.dirty && formik.isValid)} >Submit</button>
+        {/* <button type="submit" className="submitBtn" disabled={!(formik.dirty && formik.isValid)} >Submit</button> */}
+
+        <button type="submit" className="submitBtn" disabled={formik.isSubmitting} >Submit</button>
         <p className="footer">Powered by Venki</p>
       </Form> )
         }
@@ -155,3 +160,4 @@ export default function FeedbackForm() {
 // Case-2: On page load (validateOnMount)
 // Case-3: On filling mandatory fields (!(dirty & isValid))
 // Case-4: On Pre populating default data
+// Case-5: While form submission is in progress
