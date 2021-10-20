@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik,Form,Field,ErrorMessage,FieldArray, FastField } from "formik";
 import * as Yup from "yup";
 import ShowError from "./ShowError"
 
 // gh""
 export default function FeedbackForm() {
+
+  const [formValues, setFormValues] = useState({});
 
     const initialValues = {
         email: "ww@em.com",
@@ -17,6 +19,19 @@ export default function FeedbackForm() {
         },
         mobileNumbers: ["",""],
         phoneNumbers: [""],
+    }
+
+    const savedValues = {
+        email: "saveddata@em.com",
+        name: "saveddataa",
+        phone:"12234",
+        address: "barat",
+        socialmedia: {
+          facebook: "fb",
+          linkedin: "lid"
+        },
+        mobileNumbers: ["123","456"],
+        phoneNumbers: ["1245"],
     }
 
     const onSubmit = (values, form) => {
@@ -55,7 +70,7 @@ export default function FeedbackForm() {
     // gh""
   return (
     <div>
-     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} validateOnMount={true} >
+     <Formik initialValues={formValues || initialValues} enableReinitialize validationSchema={validationSchema} onSubmit={onSubmit} validateOnMount={true} >
       {
         (formik) => {
           console.log("form", formik.errors)
@@ -118,7 +133,7 @@ export default function FeedbackForm() {
               const { values } = form;
               const { phoneNumbers } = values;
               return <div>
-                {phoneNumbers.map((phoneNumber, index) => (
+                {phoneNumbers != undefined && phoneNumbers.map((phoneNumber, index) => (
                   <div key={index} className="flex-row">
                     <Field name={`phoneNumbers[${index}]`} />
                     {phoneNumbers.length > 1 && <button className="addremove" onClick={() => remove(index)}>-</button>}
@@ -141,6 +156,8 @@ export default function FeedbackForm() {
           name: true,
         })} >Touch Form</button>
         <button type="button" onClick={()=>formik.validateField("email")} >Validate Element</button>
+
+        <button type="button" onClick={()=> setFormValues(savedValues)} >Load Data</button>
       {/* ----- Manual Triggering Validation ------ */}
       
         {/* <button type="submit" className="submitBtn" disabled={!(formik.dirty && formik.isValid)} >Submit</button> */}
@@ -161,3 +178,4 @@ export default function FeedbackForm() {
 // Case-3: On filling mandatory fields (!(dirty & isValid))
 // Case-4: On Pre populating default data
 // Case-5: While form submission is in progress
+//Load Saved Data 
