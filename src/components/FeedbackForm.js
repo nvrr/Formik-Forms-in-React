@@ -7,9 +7,9 @@ import ShowError from "./ShowError"
 export default function FeedbackForm() {
 
     const initialValues = {
-        email: "",
-        name: "",
-        phone:"",
+        email: "ww@em.com",
+        name: "qat",
+        phone:"3424",
         address: "",
         socialmedia: {
           facebook: "",
@@ -27,12 +27,18 @@ export default function FeedbackForm() {
         email: Yup.string().email("Invalid Email Format").required("Required"),
         //name: Yup.string().required("Required"),
         phone:Yup.number().required("Required"),
-        address: Yup.string().required("Required"),
-        socialmedia: Yup.object({
-          facebook: Yup.string().required("fb Required"),
-        }),
-        mobileNumbers: Yup.array().required("Required"),
-        phoneNumbers: Yup.array().required("Required"),
+
+        // for Disabling submit button
+
+        // address: Yup.string().required("Required"),
+        // socialmedia: Yup.object({
+        //   facebook: Yup.string().required("fb Required"),
+        // }),
+        // mobileNumbers: Yup.array().required("Required"),
+        // phoneNumbers: Yup.array().required("Required"),
+
+        // for disabling submit button
+
     })
 // as="textarea" makes field to textarea insteadof input field and as="select" also works
 // if we want to write separate validation for particular field we can do it 
@@ -46,7 +52,7 @@ export default function FeedbackForm() {
     // gh""
   return (
     <div>
-     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} >
+     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} validateOnMount={true} >
       {
         (formik) => {
           console.log("form", formik.errors)
@@ -133,8 +139,8 @@ export default function FeedbackForm() {
         })} >Touch Form</button>
         <button type="button" onClick={()=>formik.validateField("email")} >Validate Element</button>
       {/* ----- Manual Triggering Validation ------ */}
-
-        <button type="submit" >Submit</button>
+      
+        <button type="submit" className="submitBtn" disabled={!(formik.dirty && formik.isValid)} >Submit</button>
         <p className="footer">Powered by Venki</p>
       </Form> )
         }
@@ -144,3 +150,8 @@ export default function FeedbackForm() {
   );
 }
 //gh""
+//Disabling Submit Button
+// Case-1: after clicking submit button if form is invalid (!is valid)
+// Case-2: On page load (validateOnMount)
+// Case-3: On filling mandatory fields (!(dirty & isValid))
+// Case-4: On Pre populating default data

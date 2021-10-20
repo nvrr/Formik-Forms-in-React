@@ -41,3 +41,7 @@ button{
 .addremove{
   min-width: 30px;
 }
+
+.submitBtn:disabled {
+  background-color: gray;
+}
