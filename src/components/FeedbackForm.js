@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik,Form,Field,ErrorMessage } from "formik";
+import { Formik,Form,Field,ErrorMessage,FieldArray, FastField } from "formik";
 import * as Yup from "yup";
 import ShowError from "./ShowError"
 
@@ -15,7 +15,8 @@ export default function FeedbackForm() {
           facebook: "",
           linkedin: ""
         },
-        mobileNumbers: ["",""]
+        mobileNumbers: ["",""],
+        phoneNumbers: [""],
     }
 
     const onSubmit = (values) => {
@@ -31,6 +32,7 @@ export default function FeedbackForm() {
           facebook: Yup.string().required("fb Required"),
         }),
         mobileNumbers: Yup.array().required("Required"),
+        phoneNumbers: Yup.array().required("Required"),
     })
 // as="textarea" makes field to textarea insteadof input field and as="select" also works
 // if we want to write separate validation for particular field we can do it 
@@ -44,7 +46,11 @@ export default function FeedbackForm() {
     // gh""
   return (
     <div>
-     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} validateOnChange={false} validateOnBlur={false} >
+      {
+        (formik) => {
+          console.log("form", formik.errors)
+          return (
       <Form >
         <h1>Formik Feedback</h1>
         <label htmlFor="email">Your Email</label>
@@ -58,9 +64,10 @@ export default function FeedbackForm() {
         <label htmlFor="phone">Your Phone Number</label>
         <Field type="text" name="phone" id="phone" placeholder="Enter Your Mobile Number"/>
         <ErrorMessage name="phone" component={ShowError}/>
-      {/* ----Render Props Pattern----- */}
+
+      {/* ----Render Props Pattern-----  ---FastField-- */}
         <label htmlFor="address">Your address</label>
-        <Field name="address" id="address" >
+        <FastField name="address" id="address" >
           {
             (props) => {
               console.log("address props", props);
@@ -68,9 +75,9 @@ export default function FeedbackForm() {
               return <textarea  {...field} ></textarea>
             }
           }
-        </Field>
+        </FastField>
         <ErrorMessage name="address" component={ShowError}/>
-      {/* ----Render Props Pattern----- */}
+      {/* ----Render Props Pattern--------FastField-- */}
       
       {/* -----Nested Objects----- */}
         <label htmlFor="facebook">Your Facebook ID</label>
@@ -92,9 +99,34 @@ export default function FeedbackForm() {
         <ErrorMessage name="mobileNumber[1]" component={ShowError}/>
       {/* ------Arrays------------- */}
       
+      {/* ------ FieldArray ----------------- */}
+        <label htmlFor="phoneNumbers">Your Phone Numbers</label>
+        <FieldArray name="phoneNumbers">
+          {
+            (fieldArgs) => {
+              //console.log(fieldArgs);
+              const { form, push, remove } = fieldArgs;
+              const { values } = form;
+              const { phoneNumbers } = values;
+              return <div>
+                {phoneNumbers.map((phoneNumber, index) => (
+                  <div key={index} className="flex-row">
+                    <Field name={`phoneNumbers[${index}]`} />
+                    {phoneNumbers.length > 1 && <button className="addremove" onClick={() => remove(index)}>-</button>}
+                    <button className="addremove" onClick={() => push("")}>+</button>
+                  </div>
+                ))} 
+              </div>
+            }
+          }
+        </FieldArray>
+        <ErrorMessage name="phoneNumbers" component={ShowError}/>
+      {/* ------ FieldArray ----------------- */}
         <button type="submit">Submit</button>
         <p className="footer">Powered by Venki</p>
-      </Form>
+      </Form> )
+        }
+      }
       </Formik>
     </div>
   );

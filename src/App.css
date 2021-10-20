@@ -33,3 +33,11 @@ button{
 .error {
   color: red;
 }
+.flex-row{
+  display: flex;
+  justify-content: space-between;
+}
+
+.addremove{
+  min-width: 30px;
+}
