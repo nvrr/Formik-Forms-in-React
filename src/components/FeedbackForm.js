@@ -46,7 +46,7 @@ export default function FeedbackForm() {
     // gh""
   return (
     <div>
-     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} validateOnChange={false} validateOnBlur={false} >
+     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} >
       {
         (formik) => {
           console.log("form", formik.errors)
@@ -122,7 +122,19 @@ export default function FeedbackForm() {
         </FieldArray>
         <ErrorMessage name="phoneNumbers" component={ShowError}/>
       {/* ------ FieldArray ----------------- */}
-        <button type="submit">Submit</button>
+
+      <br/>
+      {/* ----- Manual Triggering Validation ------ */}
+        <button type="button" onClick={()=>formik.validateForm()} >Validate Form</button>
+        <button type="button" onClick={()=>formik.setFieldTouched("email")} >Touch Element</button>
+        <button type="button" onClick={()=>formik.setTouched({
+          email: true,
+          name: true,
+        })} >Touch Form</button>
+        <button type="button" onClick={()=>formik.validateField("email")} >Validate Element</button>
+      {/* ----- Manual Triggering Validation ------ */}
+
+        <button type="submit" >Submit</button>
         <p className="footer">Powered by Venki</p>
       </Form> )
         }
