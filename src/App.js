@@ -6,6 +6,11 @@ import FormControl from './components/FormControl';
 // gh"" GH''
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
+
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import moment from 'moment'
+
 function App() {
 
   const technologies = [
@@ -39,6 +44,8 @@ function App() {
   })
   const onSubmit = (values, form) => {
     console.log("form submitted", values, form);
+    let convertedDate = moment(new Date(values.birthday)).format("DD-MM-YYYY HH:mm:ss A");
+    console.log(convertedDate);
     setTimeout(() => {
       form.setSubmitting(false);
       form.resetForm();
@@ -47,11 +54,12 @@ function App() {
   return (
     <div className="App">
      <div className="container">
+     <MuiPickersUtilsProvider utils={DateFnsUtils}>
      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
      <Form>
       <h1>Formik Form</h1>
-      <FormControl label="Name" name="name" type="text" placeholder="Enter your name" control="input"/>
-      <FormControl label="Password" name="password" type="password" placeholder="Enter your password" control="input"/>
+      <FormControl label="Name" name="name"  placeholder="Enter your name" control="input"/>
+      <FormControl label="Password" name="password"  placeholder="Enter your password" control="input"/>
       <FormControl label="Comments" name="comments" placeholder="Enter your comments" control="textarea"/>
       <FormControl label="Languages" name="languages"  control="select" options={languages}/>
       <FormControl label="Gender" name="gender"  control="radio" options={genderoptions}/>
@@ -60,9 +68,14 @@ function App() {
       <button type="submit">Submit</button>
      </Form>
      </Formik>
+     </MuiPickersUtilsProvider>
      </div>
     </div>
   );
 }
 
 export default App;
+
+
+//npm i formik-material @material-ui/core formik-material-ui-pickers @date-io/date-fns@1.x date-fns
+//npm i formik-material-ui

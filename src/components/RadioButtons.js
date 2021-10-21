@@ -11,12 +11,12 @@ export default function RadioButtons(props) {
             {
               (fieldProps) => {
                 const { field } = fieldProps;
-                console.log(fieldProps);
+               // console.log(fieldProps);
                 return options.map((option, index) => (
-                  <>
+                  <React.Fragment key={index}>
                   <input type="radio" id={option.value} {...field} value={option.value} checked={field.value===option.value} />
                   <label htmlFor={option.value}>{option.key}</label>
-                  </>
+                  </React.Fragment>
                 ))
               }
             }

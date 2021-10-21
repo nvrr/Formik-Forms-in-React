@@ -11,12 +11,12 @@ export default function Checkbox(props) {
             {
               (fieldProps) => {
                 const { field } = fieldProps;
-                console.log(fieldProps);
+                //console.log(fieldProps);
                 return options.map((option, index) => (
-                  <>
+                  <React.Fragment key={index}>
                   <input type="checkbox" id={option.value} {...field} value={option.value} checked={field.value.includes(option.value)} />
                   <label htmlFor={option.value}>{option.key}</label>
-                  </>
+                  </React.Fragment>
                 ))
               }
             }
